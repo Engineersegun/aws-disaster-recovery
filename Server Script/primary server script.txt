@@ -1,0 +1,9 @@
+#!/bin/bash
+# Install Apache web server
+yum update -y
+yum install -y httpd
+systemctl start httpd
+systemctl enable httpd
+
+# Create a simple webpage
+echo "<h1>Welcome to the PRIMARY Server</h1><p>This is the main site. If you see this, the system is healthy.</p>" > /var/www/html/index.html
