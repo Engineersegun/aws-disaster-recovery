@@ -1,5 +1,9 @@
 # 🛡️ AWS Disaster Recovery: Automated DNS Failover & Data Protection
 
+<img width="1366" height="768" alt="serve 1 fail to serve 2" src="https://github.com/user-attachments/assets/4890f5b7-d9fd-472b-a532-12ca406294ab" />
+
+<img width="1024" height="1024" alt="Diagram AWS Recovery explain" src="https://github.com/user-attachments/assets/f27fd84a-e5e2-42de-aca8-1a319adc487e" />
+
 [![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
 [![Route53](https://img.shields.io/badge/Route53-Blue?style=for-the-badge&logo=amazon-route53&logoColor=white)](https://aws.amazon.com/route53/)
 [![Backup](https://img.shields.io/badge/AWS_Backup-Red?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/backup/)
