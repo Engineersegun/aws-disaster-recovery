@@ -1,0 +1,68 @@
+This project is a fantastic way to learn how to make an application "resilient." In simple terms, we are building a safety net: if your main server (Primary) crashes, your traffic automatically moves to a backup server (Secondary), and your data is safe because of automated backups.
+Here is your beginner-friendly, step-by-step guide to implementing Project 6: Disaster Recovery Setup.
+
+Phase 1: Set Up AWS Backup (The Safety Net)
+Think of this like an "Auto-Save" feature for your entire cloud infrastructure.
+
+1. Create a Backup Vault
+Action: Go to the AWS Backup console and click Backup vaults on the left.
+
+Why: This is a "container" where your backups are stored and encrypted.
+
+Step: Click Create Backup vault, give it a name (e.g., MyProjectVault), and keep the default encryption settings.
+
+2. Create a Backup Plan
+Action: Click Backup Plans -> Create Backup Plan.
+Step: Choose Build a new plan.
+Setup: * Backup rule name: DailyBackup.
+Frequency: Set to Daily.
+Retention: How long do you want to keep the data? For a lab, 1 day or 7 days is fine to avoid costs.
+Vault: Select the MyProjectVault you just created.
+
+3. Assign Resources
+Action: Inside your plan, find Resource assignment.
+Step: Click Assign resources. Give it a name like MyResources.
+Choice: You can choose "Include all resource types" (expensive) or select specific ones like an existing EC2 instance or RDS database.
+
+Phase 2: Set Up Route 53 (The Traffic Controller)
+Now we need a way to tell the internet: "If Server A is dead, go to Server B."
+
+1. Set Up Health Checks
+Action: Go to Route 53 -> Health checks.
+Why: This monitors if your website is actually working.
+
+Step: Click Create health check.
+IP address: Enter the IP of your Primary Server.
+Protocol: HTTP (Port 80) or HTTPS (Port 443).
+Result: AWS will now ping your server every 30 seconds to see if it's "Healthy."
+
+2. Configure DNS Failover Policy
+Action: Go to Hosted zones and select your domain name. (If you don't have a domain, you can skip to testing the theory, but this usually requires a domain).
+
+Step: Create two records with the same name (e.g., app.yourdomain.com):
+Record 1 (Primary):
+Routing Policy: Failover.
+Failover Record Type: Primary.
+Health Check: Select the one you created above.
+
+Record 2 (Secondary):
+
+Routing Policy: Failover.
+Failover Record Type: Secondary.
+Point this to your DR (Disaster Recovery) instance IP.
+
+Phase 3: Simulate a Disaster (The Final Test)
+This is the most important part! We want to see if our work actually functions.
+Stop the Primary Server: Go to your EC2 console and Stop your primary instance.
+Wait: Give it 2–3 minutes. The Route 53 Health Check will see the server is down and turn "Unhealthy."
+
+Check the URL: Refresh your website URL. Route 53 should now be pointing you to the Secondary/Backup server.
+
+Restore Data: Go to AWS Backup -> Protected resources. Select a backup and click Restore. This proves you can bring back your data if the original was deleted.
+
+Pro-Tips for Beginners:
+IAM Roles: Ensure your user has permissions for both AWS Backup and Route 53.
+
+Region Strategy: For a "Real" DR project, put your Backup/Secondary server in a different region (e.g., Primary in US-East-1, Secondary in US-West-2). This protects you even if a whole part of the country has a power outage.
+
+Cleanup: To avoid charges, delete the Backup Plan and Release the Elastic IPs once you are finished with the project!
